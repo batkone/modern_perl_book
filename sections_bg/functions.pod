@@ -62,9 +62,10 @@ X<functions; invoking>
 
 =end programlisting
 
-... though Perl 5's default parameter handling sometimes surprises novices.
+... имайте предвид обаче, че подходът на Perl 5 използван по подразбиране 
+за обработка на аргументи на функция, може да обърка по неопитните.
 
-=head1 Function Parameters
+=head1 Аргументи подадени към функция
 
 Z<function_parameters>
 
@@ -73,10 +74,10 @@ X<functions; parameters>
 X<C<@_>>
 X<parameters; flattening>
 
-A function receives its parameters in a single array, C<@_>
-(L<default_array_variables>). Perl I<flattens> all incoming parameters into a
-single list. The function must either unpack all parameters into variables or
-operate on C<@_> directly:
+Всяка функция получава аргументите си посредством масив, C<@_>
+(L<default_array_variables>). Perl I<flattens> всички подадени аргументи 
+във формат на списък. Функцията трябва или да "разопакова" аргументите в 
+отделни промениливи, или да работи директно с масива C<@_>:
 
 =begin programlisting
 
@@ -93,7 +94,9 @@ operate on C<@_> directly:
 
 =end programlisting
 
-Most code uses C<shift> or list unpacking, though C<@_> behaves as a normal Perl array, so you can refer to individual elements by index:
+Повечето програмисти ползват или C<shift>, или разопаковат списъка. Обаче C<@_> 
+може да се използва като обикновен масив, можете да достъпите отделните му елементи
+посредсвом поредния им номер:
 
 =begin programlisting
 
@@ -120,19 +123,20 @@ Most code uses C<shift> or list unpacking, though C<@_> behaves as a normal Perl
 
 =end programlisting
 
-... or C<shift>, C<unshift>, C<push>, C<pop>, C<splice>, and slice C<@_>.
+... можете да ползвате C<shift>, C<unshift>, C<push>, C<pop>, C<splice>, както и част от C<@_>.
 
 =begin tip The Implicit Them
 
-Remember that the array builtins use C<@_> as the default operand I<within
-functions>. Take advantage of this idiom.
+Струва си да се запомни, че вградените операции работещи с масиви
+използват C<@_> като аргумент по подразбиране I<вътре във функцията>. 
+И вие бихте могли да се възползвате от това удобсво.
 
 =end tip
 
-Assigning a scalar parameter from C<@_> requires C<shift>, indexed access to
-C<@_>, or lvalue list context parentheses. Otherwise, Perl 5 will happily
-evaluate C<@_> in scalar context for you and assign the number of parameters
-passed:
+За да ползвате в скаларен контекст един от подадените параметри  от масива C<@_>
+е необходимо да използвате C<shift>, достъп до даден индекс от масива C<@_>, 
+или израз в списъчен контекст посредсвом скоби. В противен случай, Perl 5 любезно 
+ще изрази масива C<@_> в скаларен контекст и ще ви даде броя на подадените параметри:
 
 =begin programlisting
 
@@ -144,8 +148,9 @@ passed:
 
 =end programlisting
 
-List assignment of multiple parameters is often clearer than multiple lines of
-C<shift>. Compare:
+Отделянето на стойностите на аргументите в списъчен контекст често
+е по-лесно за четене от множество редове ползващи C<shift>. 
+Например:
 
 =begin programlisting
 
@@ -160,7 +165,7 @@ C<shift>. Compare:
 
 =end programlisting
 
-... to:
+... сравнено с:
 
 =begin programlisting
 
@@ -172,8 +177,8 @@ C<shift>. Compare:
 
 =end programlisting
 
-Occasionally it's necessary to extract a few parameters from C<@_> and pass the
-rest to another function:
+Понякога се налага само част от аргументите да бъдат извлечени от C<@_> ,
+а останалите да бъдат подадени към друга функция:
 
 =begin programlisting
 
@@ -187,8 +192,8 @@ rest to another function:
 
 =end programlisting
 
-Use C<shift> when your function needs only a single parameter. Use list
-assignment when accessing multiple parameters.
+Ползвайте C<shift> когато подавате само един аргумент на функциите си. Когато има 
+повече аргументи е по-удачно да се ползва списъчно подаване на стойности за променивите.
 
 =begin tip Real Function Signatures
 
