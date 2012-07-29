@@ -202,17 +202,19 @@ X<CPAN; C<Method::Signatures>>
 X<CPAN; C<MooseX::Method::Signatures>>
 X<CPAN; C<Method::Signatures::Simple>>
 
-Several CPAN distributions extend Perl 5's parameter handling with additional
-syntax and options. C<signatures> and C<Method::Signatures> are powerful.
-C<Method::Signatures::Simple> is basic, but useful.
-C<MooseX::Method::Signatures> works very well with Moose (L<moose>).
+Няколко CPAN дистрибуции разширяват обработката на аргументи от Perl 5
+добавяйки нов синтаксис и нови опции.
+C<signatures> и C<Method::Signatures> са с огромни възможности.
+C<Method::Signatures::Simple> е по-простичка, но доста полезна дистрибуция.
+C<MooseX::Method::Signatures> работи великолепно с Moose (L<moose>).
 
 =end tip
 
 =head2 Flattening
 
-Parameter flattening into C<@_> happens on the caller side of a function call.
-Passing a hash as an argument produces a list of key/value pairs:
+Превръщането на аргументите в списък C<@_> се прави още при извикването
+на функцията. Подаване на hash като аргумент подава на функцията списък с 
+двойки ключ/стойност:
 
 =begin programlisting
 
@@ -236,15 +238,16 @@ Passing a hash as an argument produces a list of key/value pairs:
 
 =end programlisting
 
-When Perl flattens C<%pet_names_and_types> into a list, the order of the
-key/value pairs from the hash will vary, but the list will always contain a key
-immediately followed by its value. Hash assignment inside C<show_pets()> works
-essentially as the more explicit assignment to C<%pet_names_and_types> does.
+Когато Perl превърне C<%pet_names_and_types> в списък, подредбата на двойките
+ключ/стойност на hash-а ще е различна, но винаги списъкът ще съдържа ключ 
+непосредствено последван от своята стойност. Присвояването на Hash в C<show_pets()> 
+работи по същтия начин както по-явното присвояване C<%pet_names_and_types>.
 
-This flattening is often useful, but beware of mixing scalars with flattened
-aggregates in parameter lists. To write a C<show_pets_of_type()> function, where
-one parameter is the type of pet to display, pass that type as the I<first>
-parameter (or use C<pop> to remove it from the end of C<@_>):
+Превръщането на аргументите в списък често е полезно, но трябва да се внимава
+при смесването на скаларни и съставни аргументи при подаването на аргументи на функция.
+При писането на функция C<show_pets_of_type()>, на която подаваме един аргумент за вид
+домашен любимец за показване, добре е да се подаде вида като I<първи> аргумент 
+(или като последен и да се ползва C<pop> за да извадим аргумента от края на масива C<@_>):
 
 =begin programlisting
 
@@ -272,15 +275,16 @@ parameter (or use C<pop> to remove it from the end of C<@_>):
 
 =end programlisting
 
-=head2 Slurping
+=head2 Изсмукване на аргументи (Slurping)
 
 Z<parameter_slurping>
 X<parameters; slurping>
 
-List assignment with an aggregate is always greedy, so assigning to C<%pets>
-I<slurps> all of the remaining values from C<@_>. If the C<$type> parameter
-came at the end of C<@_>, Perl would warn about assigning an odd number of
-elements to the hash. You I<could> work around that:
+Приравняването към съставен тип променливи изсмуква всички аргументи, 
+например приравняването към C<%pets> I<изсмуква> всички оставащи стойности 
+от списък C<@_>. Ако C<$type> аргумента е поставен на края на списъка C<@_>, 
+Perl ще даде предупреждение за нечетен брой елемента в hash-а. Вие I<бихте могли> 
+да избегнете това:
 
 =begin programlisting
 
@@ -294,17 +298,18 @@ elements to the hash. You I<could> work around that:
 
 =end programlisting
 
-... at the expense of clarity. The same principle applies when assigning to an
-array as a parameter, of course. Use references (L<references>) to avoid
-unwanted aggregate flattening and slurping.
+... за сметка на яснотата на кода. Същия принцип може да се приложи и когато се
+подават стойностите на масив като аргумент. Използвайте указатели (L<references>) 
+за да избегнете преобразуването в списък и изсмукването на аргументи.
 
-=head2 Aliasing
+=head2 Псевдоними
 
 X<parameters; aliasing>
 X<functions; aliasing parameters>
 
-C<@_> contains a subtlety; it I<aliases> function arguments such that you can
-modify them directly. For example:
+При списъка C<@_> има една малка подробност; той създава I<псевдоними> на 
+аргументите подадени към функцията така че те могат да бъдат променяни. 
+На пример:
 
 =begin programlisting
 
@@ -321,15 +326,17 @@ modify them directly. For example:
 
 =end programlisting
 
-Modify an element of C<@_> directly and you will modify the original parameter.
-Be cautious, and unpack C<@_> rigorously.
+Ако промените елемент директно в списъка C<@_> това ще промени и оригиналния
+параметър.
+Бъдете внимателни, и разопаковайте C<@_> преди употреба на аргументите.
 
-=head1 Functions and Namespaces
+=head1 Функции и Именовани-пространсва 
 
-Every function has a containing namespace (L<packages>). Functions in an
-undeclared namespace--functions not declared after an explicit C<package>
-statement--are in the C<main> namespace. You may also declare a function within
-another namespace by prefixing its name:
+Всяка функция се съдържа в някое именовано-пространство (L<packages>). Функциите
+от недекларирано именовано-пространство --функциите които не са декларирани
+след изрична употреба на C<package> директивата--се съдържат в главното C<main> 
+именовано-пространство. Можете да декларирате функция в различно 
+именовано-пространство като поставите неговото име пред името на функцията:
 
 =begin programlisting
 
@@ -339,13 +346,16 @@ another namespace by prefixing its name:
 
 =end programlisting
 
-This will declare the function and create the namespace as necessary.  Remember
-that Perl 5 packages are open for modification at any point. You may only
-declare one function of the same name per namespace. Otherwise Perl 5 will warn
-you about subroutine redefinition. Disable this warning with C<no warnings
-'redefine'>--if you're certain this is what you intend.
+Този код ще декларира функцията и ще създаде именованото-пространство,
+ ако е необходимо. Трябва да се запомни че пакетите на Perl 5 са отворени
+ за промени във всеки момент. В едно именовано-пространство е възможно 
+ да се декларира само една функция с дадено име . В противен случай Perl 5 
+ ще издаде предупреждение за предефиниране на функция. 
+Тези предупреждения могат да бъдат спрени с употребата на C<no warnings
+'redefine'>--при положение че сте убедени че имате нужда от това.
 
-Call functions in other namespaces with their fully-qualified names:
+Извикването на функции от дтуги именовани-пространства става
+чрез употреба на пълното квалифициращо име на функцията:
 
 =begin programlisting
 
@@ -355,23 +365,24 @@ Call functions in other namespaces with their fully-qualified names:
 
 =end programlisting
 
-Functions in namespaces are I<visible> outside of those namespaces through
-their fully-qualified names. Within a namespace, you may use the short name to
-call any function declared in that namespace. You may also import names from
-other namespaces.
+Функции принадлежащи на дадено именовано-пространство стават I<видими> за програмата
+посредством употребата на пълното им квалифициращо име. Вътре в именованото-
+пространство, можете да използвате съкратеното име на функциите декларирани в това
+именовано-пространство. Можете също така да импортирате (вкарате) имена на функции от други 
+именовани-пространства.
 
-=head2 Importing
+=head2 Импортване
 
 Z<importing>
 
 X<functions; importing>
 X<builtins; C<use>>
 
-When loading a module with the C<use> builtin (L<modules>), Perl automatically
-calls a method named C<import()> on that module. Modules can provide their own
-C<import()> which makes some or all defined symbols available to the calling
-package. Any arguments after the name of the module in the C<use> statement get
-passed to the module's C<import()> method. Thus:
+Когато се зарежда модул (L<modules>) с вградената директива C<use> , Perl автоматично
+извиква метода C<import()> на този модул. Модулите могат да осигурят свой собствен 
+C<import()> метод, който подсигурява че са на разположение някои или всички дефинирани
+символи от извикващия пакет. Всички аргументи следващи името на модула при 
+C<use> директивата биват подадени на метода C<import()> на модула. По този начин:
 
 =begin programlisting
 
@@ -379,8 +390,8 @@ passed to the module's C<import()> method. Thus:
 
 =end programlisting
 
-... loads the F<strict.pm> module and calls C<< strict->import() >> with no
-arguments, while:
+... зарежда модула F<strict.pm> и извиква неговия метод C<< strict->import() >> 
+без аргументи, докато:
 
 =begin programlisting
 
@@ -389,11 +400,11 @@ arguments, while:
 
 =end programlisting
 
-... loads the F<strict.pm> module, calls C<< strict->import( 'refs' ) >>, then
-calls C<< strict->import( 'subs', vars' ) >>.
+... зарежда модула F<strict.pm>, извиква C<< strict->import( 'refs' ) >>, 
+и след това C<< strict->import( 'subs', vars' ) >>.
 
-C<use> has special behavior with regard to C<import()>, but you may call
-C<import()> directly. The C<use> example is equivalent to:
+C<use> има специално поведение спрямо C<import()>, но вие можете да извикате
+C<import()> директно. Предишния пример с C<use> е еквивалентен на:
 
 =begin programlisting
 
@@ -406,12 +417,13 @@ C<import()> directly. The C<use> example is equivalent to:
 
 =end programlisting
 
-The C<use> builtin adds an implicit C<BEGIN> block around these statements so
-that the C<import()> call happens I<immediately> after the parser has compiled
-the entire C<use> statement. This ensures that any imported symbols are visible
-when compiling the rest of the program. Otherwise, any functions I<imported>
-from other modules but not I<declared> in the current file would look like
-barewords, and would violate C<strict>.
+Вградената директива C<use> добавя по подразбиране блок C<BEGIN> около тези изрази
+така че извикването на C<import()> се случва I<непосредствено> след като парсерът 
+е компилирал изцяло директивата C<use>. Това осигурява че всички импортирани 
+символи за на разположение при компилацията на отаналата част от програмата. 
+В противен случай, всички функции I<импортирани> от други модули, които не са
+ I<декларирани> в настоящия файл ще приличат на голи думи, и ще нарушат 
+ директивата C<strict>.
 
 =head1 Reporting Errors
 
