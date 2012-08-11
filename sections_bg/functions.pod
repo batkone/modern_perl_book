@@ -430,10 +430,11 @@ C<import()> директно. Предишния пример с C<use> е ек�
 Z<reporting_errors>
 X<builtins; C<caller>>
 
-Within a function, inspect the context of the call to the function with the
-C<caller> builtin. When passed no arguments, it returns a three element list
-containing the name of the calling package, the name of the file containing the
-call, and the line number of the file on which the call occurred:
+Във функцията, можете да проверите контекста на извикване 
+посредством вградената функция C<caller>. При положение че не са подадени
+аргументи, тази функция връща списък от три елемента съдържащ името на 
+извикващия пакет, името на файла от който идва извикването и номера на реда
+в който извикването на функцията е осъществено:
 
 =begin programlisting
 
@@ -454,15 +455,17 @@ call, and the line number of the file on which the call occurred:
 
 =end programlisting
 
-The full call chain is available for inspection. Pass a single integer argument
-I<n> to C<caller()> to inspect the caller of the caller of the caller I<n>
-times. In other words, if C<show_call_information()> used C<caller(0)>, it
-would receive information about the call from C<main()>. If it used
-C<caller(1)>, it would receive information about the call from the start of the
-program.
+Цялата последователност на извикването също е на разположение.
+Подавайки един целочислен аргумент I<n> на C<caller()> за да получите 
+извикващия на извикващия на извикващия I<n> пъти.
+С други думи, ако C<show_call_information()> използва C<caller(0)>, тя
+ще получи информация за извикването от C<main()>. Ако използва
+C<caller(1)>, ще получи ниформацията за извикването още от началото 
+на програмата.
 
-This optional argument also tells C<caller> to provide additional return
-values, including the name of the function and the context of the call:
+Този допълнителен аргумент инструктира C<caller> също така, да даде 
+допълнителна информация включително имете на функцията и контекста на 
+извикването:
 
 =begin programlisting
 
@@ -478,14 +481,15 @@ X<C<Carp>>
 X<C<Carp>; C<croak()>>
 X<C<Carp>; C<carp()>>
 
-The standard C<Carp> module uses this technique to great effect for reporting
-errors and throwing warnings in functions. When used in place of C<die> in
-library code, C<croak()> throws an exception from the point of view of its
-caller. C<carp()> reports a warning from the file and line number of its caller
-(L<producing_warnings>).
+Стандартния модул C<Carp> използва тази техника за докладване на грешки и
+за подаване на предупреждения във функциите. Ако се използва на мястото на 
+C<die> в библиотечен код, C<croak()> дава изключение погледнато от страната 
+на извикващата функция. C<carp()> дава предупреждения за файла и номера на реда
+на извикващата го функция (L<producing_warnings>).
 
-This behavior is most useful when validating parameters or preconditions of a
-function to indicate that the calling code is wrong somehow.
+Тази функционалност е най-полезна когато се проверяват аргументи или
+при проверка на предварителни условия за дадена функция, за да 
+подскаже че извикващият код е може би грешен.
 
 =head2 Validating Arguments
 
